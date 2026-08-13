@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es" data-theme="original" data-density="original">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Círculo Gold — Vista ensamblada</title>
+  <meta name="description" content="Vista local completa de la landing Círculo Gold.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2308090c'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23d9b54a' stroke-width='3'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-size='26' font-family='Arial' font-weight='700' fill='%23f3db7e'%3EC%3C/text%3E%3C/svg%3E">
+  <style>
+    html { scroll-behavior: smooth; background: #08090c; }
+    body { margin: 0; background: #08090c; }
+
+    .preview-loading,
+    .preview-error {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 32px;
+      color: #f7f5ef;
+      background: #08090c;
+      font: 600 15px/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
+      text-align: center;
+    }
+
+    .preview-error { color: #ffb4b8; }
+    .preview-section { display: contents; }
+
+    html[data-theme="emerald"] .bootcamp-event-page {
+      --bg: #06100d !important;
+      --bg2: #091712 !important;
+      --card: #0d1c17 !important;
+      --emerald: #61e1a5 !important;
+    }
+
+    html[data-theme="champagne"] .bootcamp-event-page {
+      --bg: #100d09 !important;
+      --bg2: #18130d !important;
+      --card: #201a12 !important;
+      --white: #fff9ec !important;
+      --text: #e7decd !important;
+      --muted: #aaa08e !important;
+    }
+
+    html[data-theme="editorial"] body { background: #f1eee5; }
+    html[data-theme="editorial"] .bootcamp-event-page {
+      --bg: #f1eee5 !important;
+      --bg2: #e7e1d4 !important;
+      --card: #fffaf0 !important;
+      --white: #171511 !important;
+      --text: #38342d !important;
+      --muted: #70695e !important;
+      --soft: rgba(31, 27, 20, .13) !important;
+      color: var(--text) !important;
+      background: var(--bg) !important;
+    }
+
+    html[data-density="compact"] .bo-section { padding-block: 64px !important; }
+    html[data-density="spacious"] .bo-section { padding-block: 132px !important; }
+    html[data-hide-images="true"] .bootcamp-event-page img { opacity: .08 !important; }
+  </style>
+  <style id="project-styles"></style>
+  <style id="live-overrides"></style>
+</head>
+<body>
+  <div class="preview-loading" id="loading">Ensamblando la landing Círculo Gold…</div>
+  <main id="page-root" hidden></main>
+
+  <script>
+    (() => {
+      document.documentElement.classList.add('cg-preview-mode');
+      window.CIRCULO_GOLD_PREVIEW = true;
+
+      const sections = [
+        ['inicio', '01 · Curiosidad', '<!-- 01 CURIOSIDAD -->.html'],
+        ['dudas', '02 · Objeciones', '<!-- 02 IDENTIFICACION -->.html'],
+        ['seguridad', '03 · Seguridad', '<!-- 04 SEGURIDAD -->.html'],
+        ['posibilidad', '04 · Posibilidad', '<!-- 05 POSIBILIDAD -->.html'],
+        ['circulo-gold', '05 · Presentación Gold', '<!-- 06 DESEO -->.html'],
+        ['comunidad', '06 · Comunidad', '<!-- 07 PERTENENCIA -->.html'],
+        ['incluye-gold', '07 · Todo lo que incluye', '<!-- 08 VALOR -->.html'],
+        ['testimonios', '08 · Prueba', '<!-- 09 PRUEBA -->.html'],
+        ['transformacion', '09 · Future pacing', '<!-- 10 FUTURO -->.html'],
+        ['precio-gold', '10 · Precio Gold', '<!-- 11 OFERTA GOLD -->.html'],
+        ['empezar-hoy', '11 · Decisión', '<!-- 12 FOMO -->.html'],
+        ['circulo-acero', '12 · Oferta Acero', '<!-- 13 OFERTA ACERO -->.html'],
+        ['preguntas-frecuentes', 'FAQ · Últimas dudas', '<!-- FAQ PUENTE -->.html'],
+        ['cierre', '13 · Cierre Gold', '<!-- 14 CIERRE GOLD -->.html']
+      ];
+
+      const stripWrapper = (text, tag) => text
+        .replace(new RegExp(`^\\s*<${tag}[^>]*>`, 'i'), '')
+        .replace(new RegExp(`</${tag}>\\s*$`, 'i'), '');
+
+      async function get(file) {
+        const url = new URL(file, location.href);
+        url.searchParams.set('_preview', Date.now());
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`${file}: ${response.status}`);
+        return response.text();
+      }
+
+      function scrollToPreviewSection(section, behavior = 'smooth') {
+        const host = document.querySelector(`[data-preview-section="${section}"]`);
+        const target = host?.querySelector('section, footer') || host?.firstElementChild || host;
+        if (!target) return;
+        const top = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, left: 0, behavior });
+      }
+
+      async function boot() {
+        const root = document.querySelector('#page-root');
+        try {
+          const [css, config, script, ...fragments] = await Promise.all([
+            get('<style>.css'),
+            get('curso-config.js'),
+            get('<script>.js'),
+            ...sections.map(([, , file]) => get(file))
+          ]);
+
+          document.querySelector('#project-styles').textContent = stripWrapper(css, 'style');
+
+          fragments.forEach((html, index) => {
+            const host = document.createElement('div');
+            host.className = 'preview-section';
+            host.dataset.previewSection = sections[index][0];
+            host.innerHTML = html;
+            root.append(host);
+          });
+
+          document.querySelector('#loading').remove();
+          root.hidden = false;
+
+          const configScript = document.createElement('script');
+          configScript.textContent = config;
+          document.body.append(configScript);
+
+          const globalScript = document.createElement('script');
+          globalScript.textContent = stripWrapper(script, 'script');
+          document.body.append(globalScript);
+
+          const initialSection = new URLSearchParams(location.search).get('section');
+          if (initialSection) requestAnimationFrame(() => scrollToPreviewSection(initialSection, 'auto'));
+
+          const ids = [...document.querySelectorAll('[id]')].map(element => element.id);
+          const duplicatedIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
+          const brokenAriaControls = [...document.querySelectorAll('[aria-controls]')]
+            .filter(element => !document.getElementById(element.getAttribute('aria-controls')))
+            .length;
+          const diagnostics = {
+            overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+            duplicatedIds,
+            brokenAriaControls,
+            pendingContent: document.querySelectorAll('[data-cg-pending], .is-pending').length,
+            pendingCtas: document.querySelectorAll('[data-cg-plan].is-disabled').length
+          };
+
+          parent.postMessage({
+            source: 'curso-preview',
+            type: 'ready',
+            sections: sections.map(([value, label]) => ({ value, label })),
+            diagnostics
+          }, location.origin);
+        } catch (error) {
+          const loading = document.querySelector('#loading');
+          loading.className = 'preview-error';
+          loading.innerHTML = `No se pudo construir la vista.<br><small>${error.message}</small><br><br>Abre esta página desde el servidor local.`;
+          parent.postMessage({ source: 'curso-preview', type: 'error', message: error.message }, location.origin);
+        }
+      }
+
+      function applyAppearance(state) {
+        const html = document.documentElement;
+        html.dataset.theme = state.theme;
+        html.dataset.density = state.density;
+        html.dataset.hideImages = String(state.hideImages);
+        document.querySelector('#live-overrides').textContent = `
+          .bootcamp-event-page {
+            --gold: ${state.accent} !important;
+            --gold2: color-mix(in srgb, ${state.accent} 64%, white) !important;
+            --border: color-mix(in srgb, ${state.accent} 34%, transparent) !important;
+          }
+          .bootcamp-event-page .bo-btn {
+            border-color: color-mix(in srgb, ${state.accent} 62%, white) !important;
+            background: linear-gradient(135deg, color-mix(in srgb, ${state.accent} 62%, white), ${state.accent}) !important;
+          }
+        `;
+      }
+
+      window.addEventListener('message', event => {
+        if (event.origin !== location.origin || event.source !== parent) return;
+        if (event.data?.source !== 'curso-lab') return;
+        if (event.data.type === 'appearance') applyAppearance(event.data.state);
+        if (event.data.type === 'scroll') scrollToPreviewSection(event.data.section);
+      });
+
+      boot();
+    })();
+  </script>
+</body>
+</html>
