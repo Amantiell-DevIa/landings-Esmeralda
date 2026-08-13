@@ -1,0 +1,153 @@
+/* ========================================
+   BLOCKS.CSS — Estilos específicos por bloque
+   ======================================== */
+
+/* Block 01 - Hero */
+.block-01 .eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+}
+
+.block-01 .tags-bar {
+  margin: var(--spacing-lg) 0;
+}
+
+.block-01 .microcopy {
+  margin-top: var(--spacing-xl);
+  font-style: italic;
+}
+
+/* Block 03 - Seguridad */
+.block-03 {
+  background: var(--color-surface);
+}
+
+.block-03 .highlight-quote {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Block 06 - Chat simulation */
+.block-06 .chat-interface {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Block 07 - Incluye Gold */
+.block-07 .stats-grid {
+  margin-bottom: var(--spacing-lg);
+}
+
+.block-07 .price-banner {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+}
+
+/* Block 08 - Testimonios pendientes */
+.block-08 .testimonials-pending {
+  padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+/* Block 10 - Precio Gold */
+.block-10 {
+  text-align: center;
+}
+
+.block-10 .section-title {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Block 11 - Urgency */
+.block-11 .badge-urgency {
+  margin-bottom: var(--spacing-md);
+}
+
+.block-11 .closing-phrase {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Block 12 - Acero */
+.block-12 .features-acero .pill {
+  border-color: var(--color-acero);
+}
+
+.block-12 .price-acero {
+  background: linear-gradient(135deg, rgba(168, 168, 168, 0.1), rgba(168, 168, 168, 0.05));
+}
+
+/* Block 13 - FAQ */
+.block-13 .faq-accordion {
+  margin-top: var(--spacing-lg);
+}
+
+/* Block 14 - Cierre */
+.block-14 .keywords-bar {
+  margin: var(--spacing-xl) 0;
+}
+
+.block-14 .final-offers {
+  margin-top: var(--spacing-2xl);
+}
+
+/* Reveal animations base */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+[data-reveal="up"] {
+  transform: translateY(20px);
+}
+
+[data-reveal="left"] {
+  transform: translateX(-20px);
+}
+
+[data-reveal="right"] {
+  transform: translateX(20px);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Stagger delays */
+[data-reveal-delay="100"] { transition-delay: 100ms; }
+[data-reveal-delay="200"] { transition-delay: 200ms; }
+[data-reveal-delay="300"] { transition-delay: 300ms; }
+[data-reveal-delay="400"] { transition-delay: 400ms; }
+[data-reveal-delay="500"] { transition-delay: 500ms; }
+[data-reveal-delay="600"] { transition-delay: 600ms; }
+[data-reveal-delay="700"] { transition-delay: 700ms; }
+[data-reveal-delay="800"] { transition-delay: 800ms; }
+[data-reveal-delay="900"] { transition-delay: 900ms; }
+[data-reveal-delay="1000"] { transition-delay: 1000ms; }
+
+/* Magnetic button effect base */
+.magnetic-btn {
+  transition: transform var(--transition-base);
+  will-change: transform;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
+  }
+  
+  .magnetic-btn {
+    transition: none;
+  }
+  
+  .btn-gold-shine::before {
+    transition: none;
+  }
+  
+  .badge-urgency {
+    animation: none;
+  }
+  
+  .status-dot {
+    animation: none;
+  }
+}

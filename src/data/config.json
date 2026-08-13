@@ -1,0 +1,27 @@
+{
+  "site": {
+    "name": "Círculo Gold",
+    "yearSelector": "[data-year]"
+  },
+  "checkout": {
+    "gold": "",
+    "acero": ""
+  },
+  "features": {
+    "stickyCta": true,
+    "chatAnimation": true,
+    "revealAnimations": true,
+    "magneticButtons": true,
+    "exitIntent": false,
+    "themeToggle": false,
+    "premiumAnimations": false
+  },
+  "analytics": {
+    "enabled": true,
+    "dataLayerName": "dataLayer"
+  },
+  "fallbackAnchors": {
+    "gold": "#precio-gold",
+    "acero": "#circulo-acero"
+  }
+}
